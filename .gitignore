@@ -1,4 +1,4 @@
 .env
-*.json
+*t.json
 *t.py
 __pycache__
