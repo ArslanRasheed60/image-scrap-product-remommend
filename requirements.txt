@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+openai
+python-decouple
+python-multipart
+pyngrok
+python_dotenv
+pillow
+langchain 
+streamlit
+serpapi
+beautifulsoup4
