@@ -11,6 +11,7 @@ import os
 import io
 import base64
 from serpapi import GoogleSearch
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # Internal imports
@@ -19,6 +20,14 @@ from prompt import get_prompt
 from scrapper import ebay_scrapper
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # global conversation history
 conversation_history = {}
