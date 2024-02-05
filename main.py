@@ -81,7 +81,7 @@ async def incoming_messages(file: UploadFile = File(...)):
         # "engine": "google_lens",
         # "url": "https://i.ebayimg.com/images/g/pBcAAOSwEm9kexhR/s-l1200.webp",
         # "no_cache": True,
-        # "api_key": "e6f26c472357c8f0a65f1e547c784ebfdbb721d68313e4633bb46d84279d6e1e"
+        # "api_key": ""
         # }
 
         # search = GoogleSearch(params)
