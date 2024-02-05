@@ -113,7 +113,12 @@ async def incoming_messages(file: UploadFile = File(...)):
         for item_url in ebay_items:
             heading, price, image_urls = ebay_scrapper(item_url)
             response_data.append(
-                {"name": heading, "price": price, "image_urls": image_urls}
+                {
+                    "name": heading,
+                    "price": price,
+                    "product_url": item_url,
+                    "image_urls": image_urls,
+                }
             )
 
         # return {"ebay_urls": ebay_items}
