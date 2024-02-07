@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Internal imports
 from utils import generate_text_from_gpt, trim_json, encode_image
-from prompt import get_prompt
+from promp import get_prompt
 from scrapper import ebay_scrapper
 
 app = FastAPI()
