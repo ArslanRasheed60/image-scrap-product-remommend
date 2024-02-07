@@ -17,18 +17,24 @@ jobs:
         run: |
           pkill -f gunicorn
 
-  # deploy:
-  #   name: 🚀 CD
-  #   runs-on: [self-hosted]
-  #   needs: install
-  #   env:
-  #       WORK_DIR: /actions-runner/_work/image-scrap-product-remommend/image-scrap-product-remommend
-  #       DEPLOY_PATH: /var/www/
-  #   steps:
-  #       - name: Move directory to live
-  #         run: |
-  #             cp -rf $WORK_DIR/. /var/www/app
+  deploy:
+    name: 🚀 CI-CD
+    runs-on: [self-hosted]
+    needs: install
+    env:
+      WORK_DIR: /root/actions-runner/_work/image-scrap-product-remommend/image-scrap-product-remommend
+      DEPLOY_PATH: /var/www/app
+    steps:
+      - name: Move directory to live
+        run: |
+          cp -rf $WORK_DIR/. /var/www/app
 
-  #       - name: 🚀 Deploy
-  #         run: |
-  #           pkill -f gunicorn
+      - name: 🚀 Deploy
+        run: |
+          cd /var/www/app
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run
+        run: gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000 --daemon
