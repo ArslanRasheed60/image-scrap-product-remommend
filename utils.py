@@ -17,7 +17,6 @@ from openai import OpenAI
 
 
 open_api_key = config("OPENAI_API_KEY")
-print(open_api_key)
 openaiClient = OpenAI(api_key=open_api_key)
 
 # Set up logging

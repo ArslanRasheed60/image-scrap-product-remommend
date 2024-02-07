@@ -122,7 +122,9 @@ async def incoming_messages(file: UploadFile = File(...)):
             )
 
         # return {"ebay_urls": ebay_items}
-        return JSONResponse(content={"data": response_data})
+        return JSONResponse(
+            content={"description": gpt_response, "data": response_data}
+        )
     except Exception as e:
         print("Exception: ", e.with_traceback())
         return HTTPException(status_code=404, detail="Details Not Found")
