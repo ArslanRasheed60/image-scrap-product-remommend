@@ -30,10 +30,10 @@ jobs:
           username: "root"
           password: ${{ secrets.DROPLET_PASSWORD }}
           script: |
-            pkill -f uvicorn
-            cd /var/www/app
-            git pull
-            source .venv/bin/activate
-            pip install -r requirements.txt
-            nohup uvicorn main:app --host 0.0.0.0 --port 8000
+            pkill -f uvicorn && \
+            cd /var/www/app && \
+            git pull && \
+            source .venv/bin/activate && \
+            pip install -r requirements.txt && \
+            nohup uvicorn main:app --host 0.0.0.0 --port 8000 & disown
           debug: true
