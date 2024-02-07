@@ -11,3 +11,4 @@ streamlit
 serpapi
 google-search-results
 beautifulsoup4
+gunicorn

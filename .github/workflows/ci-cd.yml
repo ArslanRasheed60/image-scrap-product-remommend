@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 jobs:
-  update-and-restart:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,15 +13,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.11"
+          python-version: "3.11" # Use the Python version of your project
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run tests
         run: |
-          # Add commands to run your tests
+          # Add commands to run your tests, if any
 
       - name: SSH and Update Server
         uses: appleboy/ssh-action@v0.1.4
@@ -30,10 +29,15 @@ jobs:
           username: "root"
           password: ${{ secrets.DROPLET_PASSWORD }}
           script: |
-            pkill -f uvicorn && \
-            cd /var/www/app && \
-            git pull && \
-            source .venv/bin/activate && \
-            pip install -r requirements.txt && \
-            nohup uvicorn main:app --host 0.0.0.0 --port 8000
-          debug: true
+            # Stop the existing Gunicorn process
+            pkill -f gunicorn
+            # Navigate to the project directory
+            cd /var/www/app
+            # Pull the latest code
+            git pull
+            # Activate the virtual environment
+            source .venv/bin/activate
+            # Install any new dependencies
+            pip install -r requirements.txt
+            # Start the application using Gunicorn with Uvicorn workers
+            gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000 --daemon
