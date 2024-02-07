@@ -23,26 +23,17 @@ jobs:
         run: |
           # Add commands to run your tests
 
-      # - name: SSH and Update Server
-      #   uses: appleboy/ssh-action@v0.1.4
-      #   with:
-      #     host: ${{ secrets.DROPLET_IP }}
-      #     username: "root"
-      #     password: ${{ secrets.DROPLET_PASSWORD }}
-      #     script: |
-      #       pkill -f uvicorn && \
-      #       cd /var/www/app && \
-      #       git pull && \
-      #       source .venv/bin/activate && \
-      #       pip install -r requirements.txt && \
-      #       nohup uvicorn main:app --host 0.0.0.0 --port 8000
-      #     debug: true
-
-      - name: Running script
-        run: |
-          pkill -f uvicorn && \
-          cd /var/www/app && \
-          git pull && \
-          source .venv/bin/activate && \
-          pip install -r requirements.txt && \
-          nohup uvicorn main:app --host 0.0.0.0 --port 8000
+      - name: SSH and Update Server
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: "root"
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          script: |
+            pkill -f uvicorn && \
+            cd /var/www/app && \
+            git pull && \
+            source .venv/bin/activate && \
+            pip install -r requirements.txt && \
+            nohup uvicorn main:app --host 0.0.0.0 --port 8000
+          debug: true
