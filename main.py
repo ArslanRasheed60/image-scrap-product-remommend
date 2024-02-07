@@ -35,7 +35,7 @@ conversation_history = {}
 
 @app.get("/")
 async def test():
-    return {"API": "Working"}
+    return {"API": "Working Fine"}
 
 
 @app.post("/uploadfile/")
