@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          pkill -f gunicorn
+          pkill -f uvicorn
 
   deploy:
     name: 🚀 CI-CD
@@ -40,4 +40,4 @@ jobs:
         run: |
           cd /var/www/app
           source .venv/bin/activate
-          gunicorn -w 2 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000 --daemon
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 & disown
