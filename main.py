@@ -15,9 +15,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 # Internal imports
-from utils import generate_text_from_gpt, trim_json, encode_image
+from utils import generate_text_from_gpt, trim_json, encode_image, encode_for_url
 from promp import get_prompt
-from scrapper import ebay_scrapper
+from scrapper import (
+    ebay_scrapper,
+    ebay_sold_auction_items_list,
+    ebay_auction_item_scrapper,
+)
 
 app = FastAPI()
 
@@ -39,7 +43,7 @@ async def test():
 
 
 @app.post("/uploadfile/")
-async def incoming_messages(file: UploadFile = File(...)):
+async def fetching_of_ebay_items_by_image(file: UploadFile = File(...)):
     try:
         # write in file
         temp_file_path = f"temp_{file.filename}"
@@ -124,6 +128,70 @@ async def incoming_messages(file: UploadFile = File(...)):
         # return {"ebay_urls": ebay_items}
         return JSONResponse(
             content={"description": gpt_response, "data": response_data}
+        )
+    except Exception as e:
+        print("Exception: ", e.with_traceback())
+        return HTTPException(status_code=404, detail="Details Not Found")
+
+
+@app.post("/sold_auction_items/")
+async def fetching_of_sold_auction_ebay_items_by_image(file: UploadFile = File(...)):
+    try:
+        # write in file
+        temp_file_path = f"temp_{file.filename}"
+        with open(temp_file_path, "wb") as buffer:
+            buffer.write(file.file.read())
+
+        # Open and process the image
+        with open(temp_file_path, "rb") as img_file:
+            image = Image.open(img_file).convert("RGB")
+            byte_arr = io.BytesIO()
+            image.save(byte_arr, format="JPEG")
+            byte_arr = byte_arr.getvalue()
+            base64_image = base64.b64encode(byte_arr).decode("utf-8")
+
+        message = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": get_prompt()},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}",
+                        },
+                    },
+                ],
+            }
+        ]
+
+        gpt_response = await generate_text_from_gpt(message)
+
+        # Delete the file from disk
+        os.remove(temp_file_path)
+
+        encoded_response = encode_for_url(gpt_response)
+
+        ebay_search_query, auction_item_details = ebay_sold_auction_items_list(
+            encoded_response
+        )
+
+        if auction_item_details == None:
+            return JSONResponse(
+                status_code=404,
+                content={"description": gpt_response, "data": {}},
+            )
+
+        print("interpreted_encode_text:", encoded_response)
+        print("for_processing: ", len(auction_item_details))
+
+        # return {"ebay_urls": ebay_items}
+        return JSONResponse(
+            content={
+                "description": gpt_response,
+                "ebay_search_query": ebay_search_query,
+                "data": auction_item_details,
+            }
         )
     except Exception as e:
         print("Exception: ", e.with_traceback())

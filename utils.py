@@ -6,6 +6,7 @@ import re
 import time
 import requests
 import base64
+import urllib.parse
 
 # Third-party imports
 from decouple import config
@@ -84,3 +85,7 @@ def fetch_and_store_to_file(url, path):
     result = requests.get(url)
     with open(path, "w") as f:
         f.write(result.text)
+
+
+def encode_for_url(query):
+    return urllib.parse.quote_plus(query)
