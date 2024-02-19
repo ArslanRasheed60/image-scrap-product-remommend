@@ -13,10 +13,9 @@ def get_prompt():
     > if its something else then focus on the major centered thing. forget other details.
 
     Don't Mention useless things like "Used machine", "Machine with reflection". Here "Used" and "reflection" are useless. 
-    You need to return the reponse according to the product. Don't mention extra details like "used", "new", "reflection" etc. 
+    Just mention the product with its details like black washing machine etc.
 
     MAKE SURE TO RESPONSE IN UP TO 1-7 WORDS words only. 
-    ONLY NAME OF THE PRODUCT IS MORE PREFERABLE with minor detials like color [optional].
         """
 
     return content
