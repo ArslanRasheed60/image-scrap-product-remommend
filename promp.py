@@ -1,7 +1,22 @@
 # current confirmation prompt
+# def get_prompt():
+
+#     content = f""" Analyse the image, provide its breif description by focusing on minor details as well in 3-8 words only.
+#         """
+
+
+#     return content
 def get_prompt():
 
-    content = f""" Analyse the image, provide its breif description by focusing on minor details as well in 3-8 words only.
+    content = f""" Analyse the image, 
+    > if its a cloth then provide its breif description by focusing on minor details as well of the cloth, Ignore the surrounding items.
+    > if its something else then focus on the major centered thing. forget other details.
+
+    Don't Mention useless things like "Used machine", "Machine with reflection". Here "Used" and "reflection" are useless. 
+    You need to return the reponse according to the product. Don't mention extra details like "used", "new", "reflection" etc. 
+
+    MAKE SURE TO RESPONSE IN UP TO 1-7 WORDS words only. 
+    ONLY NAME OF THE PRODUCT IS MORE PREFERABLE with minor detials like color [optional].
         """
 
     return content

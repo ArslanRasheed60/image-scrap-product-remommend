@@ -92,7 +92,7 @@ def ebay_sold_auction_items_list(item_str: str):
             "li", class_="s-item s-item__pl-on-bottom"
         )
 
-        print("items_found: ", len(items_list))
+        # print("items_found: ", len(items_list))
 
         auction_item_details = []
         count = 0
@@ -113,7 +113,7 @@ def ebay_sold_auction_items_list(item_str: str):
                 info_tag.find("div", class_="s-item__caption-section").find("span").text
             )
 
-            print("info_taginfo_taginfo_taginfo_taginfo_taginfo_tag", info_tag)
+            # print("info_taginfo_taginfo_taginfo_taginfo_taginfo_tag", info_tag)
 
             heading_span_text = (
                 info_tag.find("div", class_="s-item__title").find("span").text
