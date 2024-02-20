@@ -16,6 +16,7 @@ def get_prompt():
     Just mention the product with its details like black washing machine etc.
 
     MAKE SURE TO RESPONSE IN UP TO 1-7 WORDS words only. 
+    GENERATE RESPONSE SO THAT IT CAN BE SEARCHABLE ON EBAY FOR SIMILAR PRODUCTS. 
         """
 
     return content
